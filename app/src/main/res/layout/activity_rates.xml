@@ -16,10 +16,12 @@
         android:layout_height="match_parent"
         tools:context=".rates.RatesActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
+        <!--        TODO -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_rates"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:bindCurrencyAdapterItems="@{viewModel.adapterItems}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
