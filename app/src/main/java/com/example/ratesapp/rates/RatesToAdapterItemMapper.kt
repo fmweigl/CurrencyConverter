@@ -44,7 +44,7 @@ class RatesToAdapterItemMapper(private val resources: Resources) {
             CurrencyAdapterItem(
                 currencyId = rates.baseCurrency,
                 currencyName = mapCurrencyIdToName(rates.baseCurrency),
-                currencyFlagResId = mapCurrencyIdToFlagResourceId(rates.baseCurrency),
+                countryFlagResId = mapCurrencyIdToFlagResourceId(rates.baseCurrency),
                 isBase = true,
                 value = 1f
             )
@@ -52,7 +52,7 @@ class RatesToAdapterItemMapper(private val resources: Resources) {
             CurrencyAdapterItem(
                 currencyId = it.first,
                 currencyName = mapCurrencyIdToName(it.first),
-                currencyFlagResId = mapCurrencyIdToFlagResourceId(it.first),
+                countryFlagResId = mapCurrencyIdToFlagResourceId(it.first),
                 isBase = false,
                 value = it.second
             )
@@ -97,7 +97,6 @@ class RatesToAdapterItemMapper(private val resources: Resources) {
         else -> null
     }
 
-    // TODO license
     private fun mapCurrencyIdToFlagResourceId(id: String) = when (id.toLowerCase()) {
         ID_AUD -> R.drawable.ic_australia
         ID_BGN -> R.drawable.ic_bulgaria

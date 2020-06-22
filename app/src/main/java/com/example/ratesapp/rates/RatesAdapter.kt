@@ -52,14 +52,7 @@ class CurrencyViewHolder(private val binding: ItemCurrencyBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bindCurrencyItem(item: CurrencyAdapterItem) {
-        binding.tvCurrencyId.text = item.currencyId
-        binding.tvCurrencyName.text = item.currencyName
-        item.currencyFlagResId?.let {
-            binding.ivCurrencyFlag.setImageResource(it)
-        } ?: run {
-            binding.ivCurrencyFlag.setImageDrawable(null)
-        }
-
+        binding.item = item
     }
 
 }

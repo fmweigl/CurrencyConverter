@@ -7,4 +7,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextCurrencyId">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/text_currency_id</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+    </style>
+
+    <style name="TextCurrencyName">
+        <item name="android:textColor">@color/text_currency_name</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+
+    <style name="ConversionInput" parent="Widget.AppCompat.EditText">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/text_conversion_input</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:maxLength">10</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="backgroundTint">@color/grey_80</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+    </style>
+
 </resources>

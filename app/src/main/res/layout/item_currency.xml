@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.ratesapp.rates.CurrencyAdapterItem" />
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_currency_flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="@dimen/country_flag_size"
+            android:layout_height="@dimen/country_flag_size"
+            app:bindDrawableResourceId="@{item.countryFlagResId}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_european_union" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_currency_id"
-            android:layout_width="wrap_content"
+            style="@style/TextCurrencyId"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/iv_currency_flag" />
+            android:layout_marginStart="@dimen/default_margin"
+            android:text="@{item.currencyId}"
+            app:layout_constraintBottom_toTopOf="@id/tv_currency_name"
+            app:layout_constraintLeft_toRightOf="@id/iv_currency_flag"
+            app:layout_constraintRight_toRightOf="@id/et_conversion"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="EUR" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_currency_name"
+            style="@style/TextCurrencyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:text="@{item.currencyName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/iv_currency_flag"
+            app:layout_constraintRight_toRightOf="@id/et_conversion"
+            app:layout_constraintTop_toBottomOf="@id/tv_currency_id"
+            tools:text="Euro" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_conversion"
+            style="@style/ConversionInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_currency_id" />
+            android:gravity="end"
+            android:hint="@string/conversion_input_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
