@@ -1,7 +1,9 @@
 package com.example.ratesapp.data.repository
 
 import com.example.ratesapp.data.datasource.IRatesDataSource
+import com.example.ratesapp.data.response.RateResponse
 import com.example.ratesapp.data.response.RatesResponse
+import com.example.ratesapp.domain.model.Rate
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.then
 import io.reactivex.rxjava3.core.Single
@@ -13,6 +15,7 @@ import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import java.math.BigDecimal
 
 class RatesRepositoryTest {
 
@@ -34,17 +37,31 @@ class RatesRepositoryTest {
     @Test
     fun `should get and convert rates`() {
         val baseCurrency = "baseCurrency"
-        val response = RatesResponse(baseCurrency = baseCurrency)
-        given(dataSource.getRates()).willReturn(Single.just(response))
+        val currencyId0 = "currencyId0"
+        val currencyId1 = "currencyId1"
+        val currencyRate0 = BigDecimal.valueOf(1)
+        val currencyRate1 = BigDecimal.valueOf(2)
+        val rateResponse0 = RateResponse(currencyId0, currencyRate0)
+        val rateResponse1 = RateResponse(currencyId1, currencyRate1)
+        val response = RatesResponse(
+            baseCurrency = baseCurrency,
+            currencyRates = listOf(rateResponse0, rateResponse1)
+        )
+        given(dataSource.getRates(baseCurrency)).willReturn(Single.just(response))
 
-        tested.getRates()
+
+        val expectedRates = listOf(
+            Rate(baseCurrency, BigDecimal.valueOf(1)),
+            Rate(currencyId0, currencyRate0),
+            Rate(currencyId1, currencyRate1)
+        )
+
+        tested.getRates(baseCurrency)
             .test()
             .assertComplete()
             .assertNoErrors()
-            .assertValue {
-                it.baseCurrency == baseCurrency
-            }
-        then(dataSource).should().getRates()
+            .assertValue(expectedRates)
+        then(dataSource).should().getRates(baseCurrency)
     }
 
 }

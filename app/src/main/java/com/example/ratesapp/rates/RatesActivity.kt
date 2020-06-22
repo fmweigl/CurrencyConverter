@@ -23,8 +23,18 @@ class RatesActivity : AppCompatActivity() {
                 it.lifecycleOwner = this
                 it.viewModel = viewModel
                 it.rvRates.layoutManager = LinearLayoutManager(this)
-                it.rvRates.adapter = RatesAdapter()
+                it.rvRates.adapter = RatesAdapter(viewModel, viewModel)
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.resumeUpdatingRates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.pauseUpdatingRates()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

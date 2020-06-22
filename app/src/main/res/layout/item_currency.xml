@@ -8,11 +8,20 @@
             name="item"
             type="com.example.ratesapp.rates.CurrencyAdapterItem" />
 
+        <variable
+            name="clickListener"
+            type="com.example.ratesapp.rates.IConversionClickedListener" />
+
+        <variable
+            name="inputListener"
+            type="com.example.ratesapp.rates.IConversionInputListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{(v) -> clickListener.onCurrencyClicked(item.currencyId)}"
         android:padding="@dimen/default_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -56,8 +65,9 @@
             style="@style/ConversionInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:hint="@string/conversion_input_hint"
+            android:onTextChanged="@{(text, start, before, count) -> inputListener.onConversionInput(text.toString())}"
+            app:bindEditTextText="@{item.value}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

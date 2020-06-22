@@ -1,21 +1,26 @@
 package com.example.ratesapp.usecase
 
 import com.example.ratesapp.data.repository.RatesRepository
-import com.example.ratesapp.domain.model.Rates
+import com.example.ratesapp.domain.model.Rate
+import com.example.ratesapp.util.RxInterval
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.then
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import java.util.concurrent.TimeUnit
 
 class GetRatesUseCaseTest {
 
     @Mock
     private lateinit var repository: RatesRepository
+
+    @Mock
+    private lateinit var rxInterval: RxInterval
 
     @InjectMocks
     private lateinit var tested: GetRatesUseCase
@@ -24,16 +29,22 @@ class GetRatesUseCaseTest {
     fun setUp() = MockitoAnnotations.initMocks(this)
 
     @Test
-    fun `should get rates`() {
-        val rates = mock<Rates>()
-        given(repository.getRates()).willReturn(Single.just(rates))
+    fun `should observe rates at one second interval`() {
+        val currencyId = "currencyId"
+        val rates0 = listOf(mock<Rate>())
+        val rates1 = listOf(mock<Rate>())
+        val rates2 = listOf(mock<Rate>())
+        given(repository.getRates(currencyId)).willReturn(
+            Single.just(rates0),
+            Single.just(rates1),
+            Single.just(rates2)
+        )
+        given(rxInterval.interval(1, TimeUnit.SECONDS)).willReturn(Observable.just(1L, 2L, 3L))
 
-        tested.getRates()
+        tested.observeRates(currencyId)
             .test()
-            .assertComplete()
             .assertNoErrors()
-            .assertValue(rates)
-        then(repository).should().getRates()
+            .assertValues(rates0, rates1, rates2)
     }
 
 }

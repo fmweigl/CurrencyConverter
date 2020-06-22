@@ -21,7 +21,7 @@ class RatesResponseDeserializer : JsonDeserializer<RatesResponse> {
         val ratesObject = jsonObject.getAsJsonObject(KEY_RATES)
 
         val currencyRates = ratesObject.entrySet().map {
-            it.key to it.value.asFloat
+            RateResponse(currencyId = it.key, value = it.value.asBigDecimal)
         }
 
         return RatesResponse(baseCurrency, currencyRates)

@@ -1,6 +1,8 @@
 package com.example.ratesapp.domain.model
 
-data class Rates(
-    val baseCurrency: String,
-    val currencyRates: List<Pair<String, Float>> // TODO
+import java.math.BigDecimal
+
+data class Rate(
+    val currencyId: String,
+    val value: BigDecimal
 )
