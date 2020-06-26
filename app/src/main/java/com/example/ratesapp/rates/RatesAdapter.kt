@@ -97,6 +97,9 @@ class CurrencyViewHolder(
         binding.item = item
         if (item.isBase) {
             binding.inputListener = inputListener
+            if (binding.etConversion.hasFocus().not()) {
+                binding.etConversion.requestFocus()
+            }
         } else {
             // don't need to listen to text changes on currencies other than the base currency
             binding.inputListener = null
