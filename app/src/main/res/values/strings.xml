@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RatesApp</string>
+    <string name="app_name">CurrencyConverter</string>
     <string name="menu_item_text_show_attribution">Country flags attribution</string>
     <string name="screen_title_attribution">Country flags</string>
     <string name="attribution_headline_country_flags">Country flags</string>

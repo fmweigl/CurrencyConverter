@@ -6,15 +6,15 @@
 
         <variable
             name="item"
-            type="com.example.ratesapp.rates.CurrencyAdapterItem" />
+            type="com.example.currencyconverter.rates.CurrencyAdapterItem" />
 
         <variable
             name="clickListener"
-            type="com.example.ratesapp.rates.IConversionClickedListener" />
+            type="com.example.currencyconverter.rates.IConversionClickedListener" />
 
         <variable
             name="inputListener"
-            type="com.example.ratesapp.rates.IConversionInputListener" />
+            type="com.example.currencyconverter.rates.IConversionInputListener" />
 
     </data>
 

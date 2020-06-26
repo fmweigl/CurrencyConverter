@@ -3,4 +3,4 @@ include ':data'
 include ':domain'
 include ':usecase'
 include ':app'
-rootProject.name = "RatesApp"
+rootProject.name = "CurrencyConverter"
