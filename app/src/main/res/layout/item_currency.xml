@@ -21,7 +21,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(v) -> clickListener.onCurrencyClicked(item.currencyId)}"
         android:padding="@dimen/default_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -69,6 +68,17 @@
             android:onTextChanged="@{(text, start, before, count) -> inputListener.onConversionInput(text.toString())}"
             app:bindEditTextText="@{item.value}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- intercepts clicks to the view including the edittext which only should be editable when currency is base currency-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{(v) -> clickListener.onCurrencyClicked(item.currencyId)}"
+            app:bindVisibleOrGone="@{!item.isBase}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

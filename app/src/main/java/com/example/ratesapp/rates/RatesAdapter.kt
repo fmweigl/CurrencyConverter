@@ -1,5 +1,6 @@
 package com.example.ratesapp.rates
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -91,6 +92,9 @@ class CurrencyViewHolder(
 
     init {
         binding.clickListener = clickListener
+        binding.etConversion.setOnClickListener {
+            Log.d("yyy", "clicked")
+        }
     }
 
     fun bindCurrencyItem(item: CurrencyAdapterItem) {
