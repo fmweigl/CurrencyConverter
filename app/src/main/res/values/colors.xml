@@ -10,4 +10,5 @@
     <color name="text_currency_id">@color/black</color>
     <color name="text_currency_name">@color/grey_50</color>
     <color name="text_conversion_input">@color/black</color>
+    <color name="text_toolbar">#000000</color>
 </resources>

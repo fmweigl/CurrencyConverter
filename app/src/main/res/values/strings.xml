@@ -5,4 +5,5 @@
     <string name="attribution_headline_country_flags">Country flags</string>
     <string name="attribution_text_country_flags">Icons made by &lt;a href=https://www.flaticon.com/authors/pixel-perfect>Pixel perfect&lt;/a> from &lt;a href=http://www.flaticon.com/>www.flaticon.com&lt;/a></string>
     <string name="conversion_input_hint">0</string>
+    <string name="rates_screen_tooblar_title">Rates</string>
 </resources>
