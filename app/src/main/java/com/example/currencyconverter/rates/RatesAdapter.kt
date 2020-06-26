@@ -92,9 +92,6 @@ class CurrencyViewHolder(
 
     init {
         binding.clickListener = clickListener
-        binding.etConversion.setOnClickListener {
-            Log.d("yyy", "clicked")
-        }
     }
 
     fun bindCurrencyItem(item: CurrencyAdapterItem) {

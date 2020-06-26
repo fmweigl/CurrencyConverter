@@ -21,6 +21,7 @@
     </style>
 
     <style name="TextToolbar">
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/text_toolbar</item>
         <item name="android:textSize">20sp</item>
         <item name="android:lineSpacingExtra">3dp</item>

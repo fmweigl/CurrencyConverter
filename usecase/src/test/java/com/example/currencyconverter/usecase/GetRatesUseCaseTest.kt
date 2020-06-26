@@ -47,4 +47,23 @@ class GetRatesUseCaseTest {
             .assertValues(rates0, rates1, rates2)
     }
 
+    @Test
+    fun `should ignore errors`() {
+        val currencyId = "currencyId"
+        val rates0 = listOf(mock<Rate>())
+        val rates1 = listOf(mock<Rate>())
+        val rates2 = listOf(mock<Rate>())
+        given(repository.getRates(currencyId)).willReturn(
+            Single.just(rates0),
+            Single.error(Throwable()),
+            Single.just(rates1),
+            Single.just(rates2)
+        )
+        given(rxInterval.interval(1, TimeUnit.SECONDS)).willReturn(Observable.just(1L, 2L, 3L, 4L))
+
+        tested.observeRates(currencyId)
+            .test()
+            .assertValues(rates0, rates1, rates2)
+    }
+
 }

@@ -1,11 +1,14 @@
 package com.example.currencyconverter.data.repository
 
+import com.example.currencyconverter.data.cache.ICache
 import com.example.currencyconverter.data.datasource.IRatesDataSource
 import com.example.currencyconverter.data.response.RateResponse
 import com.example.currencyconverter.data.response.RatesResponse
 import com.example.currencyconverter.domain.model.Rate
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.then
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -16,11 +19,15 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.math.BigDecimal
+import java.util.*
 
 class RatesRepositoryTest {
 
     @Mock
     private lateinit var dataSource: IRatesDataSource
+
+    @Mock
+    private lateinit var cache: ICache<RatesResponse>
 
     @InjectMocks
     private lateinit var tested: RatesRepository
@@ -48,6 +55,7 @@ class RatesRepositoryTest {
             currencyRates = listOf(rateResponse0, rateResponse1)
         )
         given(dataSource.getRates(baseCurrency)).willReturn(Single.just(response))
+        given(cache.put(any(), any())).willReturn(Completable.complete())
 
 
         val expectedRates = listOf(
@@ -62,6 +70,50 @@ class RatesRepositoryTest {
             .assertNoErrors()
             .assertValue(expectedRates)
         then(dataSource).should().getRates(baseCurrency)
+    }
+
+    @Test
+    fun `should put response to cache`() {
+        val response = RatesResponse("", emptyList())
+        given(dataSource.getRates(any())).willReturn(Single.just(response))
+        given(cache.put(any(), any())).willReturn(Completable.complete())
+
+        tested.getRates("")
+            .test()
+            .assertNoErrors()
+            .assertComplete()
+
+        then(cache).should().put("KEY_CACHED_RESPONSE", response)
+    }
+
+    @Test
+    fun `should return response from cache if fetching from datasource fails`() {
+        val cachedResponse =
+            RatesResponse("EUR", listOf(RateResponse("USD", BigDecimal.valueOf(2))))
+        given(cache.get("KEY_CACHED_RESPONSE")).willReturn(Single.just(Optional.of(cachedResponse)))
+        given(dataSource.getRates("EUR")).willReturn(Single.error(Throwable()))
+
+        tested.getRates("EUR")
+            .test()
+            .assertNoErrors()
+            .assertComplete()
+            .assertValue {
+                it == listOf(
+                    Rate("EUR", BigDecimal.valueOf(1)),
+                    Rate("USD", BigDecimal.valueOf(2))
+                )
+            }
+    }
+
+    @Test
+    fun `should throw error when fetching from datasource failed and no response in cache`() {
+        val throwable = Throwable()
+        given(dataSource.getRates(any())).willReturn(Single.error(throwable))
+        given(cache.get(any())).willReturn(Single.just(Optional.empty()))
+
+        tested.getRates("")
+            .test()
+            .assertError(throwable)
     }
 
 }
