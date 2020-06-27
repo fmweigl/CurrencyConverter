@@ -74,24 +74,26 @@ class RatesRepositoryTest {
 
     @Test
     fun `should put response to cache`() {
+        val currencyId = "USD"
         val response = RatesResponse("", emptyList())
         given(dataSource.getRates(any())).willReturn(Single.just(response))
         given(cache.put(any(), any())).willReturn(Completable.complete())
 
-        tested.getRates("")
+        tested.getRates(currencyId)
             .test()
             .assertNoErrors()
             .assertComplete()
 
-        then(cache).should().put("KEY_CACHED_RESPONSE", response)
+        then(cache).should().put(currencyId, response)
     }
 
     @Test
     fun `should return response from cache if fetching from datasource fails`() {
+        val currencyId = "EUR"
         val cachedResponse =
-            RatesResponse("EUR", listOf(RateResponse("USD", BigDecimal.valueOf(2))))
-        given(cache.get("KEY_CACHED_RESPONSE")).willReturn(Single.just(Optional.of(cachedResponse)))
-        given(dataSource.getRates("EUR")).willReturn(Single.error(Throwable()))
+            RatesResponse(currencyId, listOf(RateResponse("USD", BigDecimal.valueOf(2))))
+        given(cache.get(currencyId)).willReturn(Single.just(Optional.of(cachedResponse)))
+        given(dataSource.getRates(currencyId)).willReturn(Single.error(Throwable()))
 
         tested.getRates("EUR")
             .test()

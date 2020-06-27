@@ -9,17 +9,15 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.math.BigDecimal
 
-private const val KEY_CACHED_RESPONSE = "KEY_CACHED_RESPONSE"
-
 class RatesRepository(
     private val dataSource: IRatesDataSource,
     private val cache: ICache<RatesResponse>
 ) {
 
     fun getRates(baseCurrencyId: String): Single<List<Rate>> = dataSource.getRates(baseCurrencyId)
-        .concatMap { cache.put(KEY_CACHED_RESPONSE, it).toSingle { it } }
+        .concatMap { cache.put(baseCurrencyId, it).toSingle { it } }
         .onErrorResumeNext { throwable ->
-            cache.get(KEY_CACHED_RESPONSE).map { responseOptional ->
+            cache.get(baseCurrencyId).map { responseOptional ->
                 if (responseOptional.isPresent) responseOptional.get() else throw throwable
             }
         }
