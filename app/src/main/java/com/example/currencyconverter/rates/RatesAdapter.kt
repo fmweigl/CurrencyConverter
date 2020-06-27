@@ -1,6 +1,5 @@
 package com.example.currencyconverter.rates
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -32,9 +31,9 @@ class RatesAdapter(
     private fun updateOnlyValues(newItems: List<CurrencyAdapterItem>) =
         this.items.forEachIndexed { index, currencyAdapterItem ->
             val newItem = newItems[index]
-            if (currencyAdapterItem.value != newItem.value) {
+            if (currencyAdapterItem.displayValue != newItem.displayValue) {
                 this.items[index] = newItem
-                notifyItemChanged(index, newItem.value)
+                notifyItemChanged(index, newItem.displayValue)
             }
         }
 

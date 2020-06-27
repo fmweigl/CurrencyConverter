@@ -65,9 +65,9 @@ class RatesViewModelTest {
         given(getUserConversionInputUseCase.getUserConversionInput())
             .willReturn(Single.just(Optional.of(input)))
         val rates = listOf(
-            Rate(currencyId = "selectedCurrency", value = BigDecimal.valueOf(1)),
-            Rate(currencyId = "currency0", value = BigDecimal.valueOf(2)),
-            Rate(currencyId = "currency1", value = BigDecimal.valueOf(3))
+            Rate(currencyId = "selectedCurrency", exchangeValue = BigDecimal.valueOf(1)),
+            Rate(currencyId = "currency0", exchangeValue = BigDecimal.valueOf(2)),
+            Rate(currencyId = "currency1", exchangeValue = BigDecimal.valueOf(3))
         )
         given(getRatesUseCase.observeRates(selectedCurrency)).willReturn(Observable.just(rates))
         val adapterItems = listOf(
@@ -153,7 +153,7 @@ class RatesViewModelTest {
         tested.onCurrencyClicked(adapterItems.first().currencyId)
 
         then(saveConversionInputUseCase).should()
-            .saveConversionInput(adapterItems.first().value)
+            .saveConversionInput(adapterItems.first().displayValue)
     }
 
     @Test

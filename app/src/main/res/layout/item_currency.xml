@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/conversion_input_hint"
             android:onTextChanged="@{(text, start, before, count) -> inputListener.onConversionInput(text.toString())}"
-            app:bindEditTextText="@{item.value}"
+            app:bindEditTextText="@{item.displayValue}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

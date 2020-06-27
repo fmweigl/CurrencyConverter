@@ -5,6 +5,8 @@ import com.example.currencyconverter.R
 import com.example.currencyconverter.domain.model.Rate
 import java.math.BigDecimal
 
+private const val EMPTY_STRING = ""
+
 class RatesToAdapterItemMapper(
     private val resources: Resources,
     private val numberFormatter: NumberFormatter
@@ -20,14 +22,14 @@ class RatesToAdapterItemMapper(
             val inputValue =
                 when {
                     isBaseRate -> input
-                    inputAsBigDecimal == null -> ""
-                    else -> rateTimesInputToString(rate.value, inputAsBigDecimal)
+                    inputAsBigDecimal == null -> EMPTY_STRING
+                    else -> rateTimesInputToString(rate.exchangeValue, inputAsBigDecimal)
                 }
             CurrencyAdapterItem(
                 currencyId = rate.currencyId,
                 currencyName = mapCurrencyIdToName(rate.currencyId),
                 countryFlagResId = mapCurrencyIdToFlagResourceId(rate.currencyId),
-                value = inputValue,
+                displayValue = inputValue,
                 isBase = isBaseRate
             )
         }
@@ -111,7 +113,6 @@ class RatesToAdapterItemMapper(
         else -> null
     }
 
-    // TODO new base c
     fun moveCurrencyToTopOfAdapterItems(
         selectedCurrencyId: String,
         items: List<CurrencyAdapterItem>

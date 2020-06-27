@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.example.currencyconverter.domain.model.Rate
 import com.example.currencyconverter.usecase.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.BiFunction
 
 private const val DEFAULT_BASE_CURRENCY_ID = CurrencyIds.ID_EUR
 private const val DEFAULT_CONVERSION_INPUT = "1"
@@ -69,7 +67,7 @@ class RatesViewModel(
             _adapterItems.value = mapper.moveCurrencyToTopOfAdapterItems(currencyId, it)
         }
         // the value of the newly selected base currency becomes the new conversion input
-        val newInput = adapterItems.value?.firstOrNull()?.value ?: ""
+        val newInput = adapterItems.value?.firstOrNull()?.displayValue ?: ""
         // save selected currency and new user input, then start updating rates again
         val updateBaseCurrencyDisposable =
             saveCurrencySelectionUseCase.saveUserCurrencySelection(currencyId)

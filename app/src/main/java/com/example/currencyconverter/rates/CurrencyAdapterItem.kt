@@ -6,7 +6,7 @@ data class CurrencyAdapterItem(
     val currencyId: String,
     val currencyName: String?,
     @DrawableRes val countryFlagResId: Int?,
-    val value: String,
+    val displayValue: String,
     val isBase: Boolean
 ) {
 
