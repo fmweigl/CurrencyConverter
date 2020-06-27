@@ -197,7 +197,7 @@ class RatesViewModelTest {
         given(getUserCurrencySelectionUseCase.getUserCurrencySelection())
             .willReturn(Single.just(Optional.empty()))
         val input = "input"
-        val rates = listOf(Rate("", BigDecimal.ONE))
+        val rates = listOf(Rate("", BigDecimal.valueOf(1)))
         given(getRatesUseCase.observeRates(any())).willReturn(Observable.just(rates))
         val adapterItems = listOf(mock<CurrencyAdapterItem>())
         given(mapper.map(oldInput, rates)).willReturn(emptyList())

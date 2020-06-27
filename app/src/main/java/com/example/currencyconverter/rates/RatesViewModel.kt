@@ -1,6 +1,5 @@
 package com.example.currencyconverter.rates
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,9 +33,6 @@ class RatesViewModel(
         updateRatesDisposable?.dispose()
 
         updateRatesDisposable = getBaseCurrencySelectionSingle()
-            .doOnSuccess {
-                Log.d("yyy", "BASE: $it")
-            }
             .flatMapObservable { getRatesUseCase.observeRates(it) }
             .doOnNext { rates -> latestRates = rates }
             .flatMap { rates ->
@@ -63,6 +59,7 @@ class RatesViewModel(
 
     override fun onCurrencyClicked(currencyId: String) {
         pauseUpdatingRates()
+        latestRates = emptyList()
         // we manually move the newly selected base currency to the top of the list so it moves to the top right away instead of with the next api response
         adapterItems.value?.let {
             _adapterItems.value = mapper.moveCurrencyToTopOfAdapterItems(currencyId, it)
@@ -84,7 +81,7 @@ class RatesViewModel(
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ items ->
-                _adapterItems.value = items
+                if (items.isNotEmpty()) _adapterItems.value = items
             }, {
                 it.printStackTrace()
             })

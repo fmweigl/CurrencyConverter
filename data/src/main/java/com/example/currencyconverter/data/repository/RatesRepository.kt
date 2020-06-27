@@ -27,7 +27,7 @@ class RatesRepository(
     private fun RatesResponse.toRates(): List<Rate> {
         val baseCurrencyRate = Rate(
             currencyId = baseCurrency,
-            exchangeValue = BigDecimal.valueOf(1) // base currency always has a rate of 1
+            exchangeValue = BigDecimal(1) // base currency always has a rate of 1
         )
         return listOf(baseCurrencyRate).plus(currencyRates.map { it.toRate() })
     }
