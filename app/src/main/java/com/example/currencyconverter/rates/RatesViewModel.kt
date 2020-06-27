@@ -1,5 +1,6 @@
 package com.example.currencyconverter.rates
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,21 +34,17 @@ class RatesViewModel(
     fun resumeUpdatingRates() {
         updateRatesDisposable?.dispose()
 
-        updateRatesDisposable = Single.zip(
-            getBaseCurrencySelectionSingle(),
-            getConversionInputSingle(),
-            BiFunction<String, String, Pair<String, String>> { currency, input ->
-                currency to input
-            }).flatMapObservable { currencyAndInput ->
-            getRatesUseCase.observeRates(currencyAndInput.first)
-                .doOnNext { rates -> latestRates = rates }
-                .map { rates -> currencyAndInput.second to rates }
-        }.map { inputAndRates ->
-            mapper.map(
-                inputAndRates.first,
-                inputAndRates.second
-            )
-        }.observeOn(AndroidSchedulers.mainThread())
+        updateRatesDisposable = getBaseCurrencySelectionSingle()
+            .doOnSuccess {
+                Log.d("yyy", "BASE: $it")
+            }
+            .flatMapObservable { getRatesUseCase.observeRates(it) }
+            .doOnNext { rates -> latestRates = rates }
+            .flatMap { rates ->
+                getConversionInputSingle().toObservable().map { input -> input to rates }
+            }
+            .map { inputToRates -> mapper.map(inputToRates.first, inputToRates.second) }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 _adapterItems.value = it
             }
@@ -89,11 +86,9 @@ class RatesViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ items ->
                 _adapterItems.value = items
-                resumeUpdatingRates()
             }, {
                 it.printStackTrace()
             })
-
         compositeDisposable.add(updateInputDisposable)
     }
 

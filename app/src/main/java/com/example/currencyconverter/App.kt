@@ -20,7 +20,6 @@ import com.example.currencyconverter.util.RxInterval
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
-import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -28,7 +27,6 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 private val REVOLUT_BASE_URL = "https://hiring.revolut.codes"
 private val KEY_SHARED_PREFS = "KEY_SHARED_PREFS"
