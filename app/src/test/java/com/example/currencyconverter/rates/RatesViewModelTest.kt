@@ -1,6 +1,7 @@
 package com.example.currencyconverter.rates
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.currencyconverter.domain.CurrencyIds
 import com.example.currencyconverter.domain.model.Rate
 import com.example.currencyconverter.usecase.*
 import com.nhaarman.mockitokotlin2.*

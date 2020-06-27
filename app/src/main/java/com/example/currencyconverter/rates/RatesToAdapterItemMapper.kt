@@ -2,6 +2,7 @@ package com.example.currencyconverter.rates
 
 import android.content.res.Resources
 import com.example.currencyconverter.R
+import com.example.currencyconverter.domain.CurrencyIds
 import com.example.currencyconverter.domain.model.Rate
 import java.math.BigDecimal
 

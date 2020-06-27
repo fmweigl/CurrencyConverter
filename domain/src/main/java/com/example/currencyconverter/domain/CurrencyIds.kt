@@ -1,6 +1,5 @@
-package com.example.currencyconverter.rates
+package com.example.currencyconverter.domain
 
-// TODO moce?
 object CurrencyIds {
     const val ID_AUD = "AUD"
     const val ID_BGN = "BGN"

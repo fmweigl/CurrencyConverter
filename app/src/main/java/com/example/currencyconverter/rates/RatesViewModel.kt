@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.currencyconverter.domain.CurrencyIds
 import com.example.currencyconverter.domain.model.Rate
 import com.example.currencyconverter.usecase.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
