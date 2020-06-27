@@ -104,7 +104,28 @@ class RatesToAdapterItemMapperTest {
         val items = listOf(itemB, itemA, itemE, itemD, itemC)
 
         val resultItems = tested.moveCurrencyToTopOfAdapterItems("C", items)
-        val expectedResultItems = listOf(itemC, itemA, itemB, itemD, itemE)
+        val expectedResultItems = listOf(
+            itemC.copy(isBase = true),
+            itemA.copy(isBase = false),
+            itemB.copy(isBase = false),
+            itemD.copy(isBase = false),
+            itemE.copy(isBase = false)
+        )
         assertEquals(expectedResultItems, resultItems)
+    }
+
+    @Test
+    fun `should make selected currency base when moving it to top`() {
+        val items = listOf(
+            CurrencyAdapterItem("A", null, null, "", false),
+            CurrencyAdapterItem("B", null, null, "", false),
+            CurrencyAdapterItem("C", null, null, "", false)
+        )
+
+        val resultItems = tested.moveCurrencyToTopOfAdapterItems("C", items)
+
+        assertTrue(resultItems[0].isBase)
+        assertFalse(resultItems[1].isBase)
+        assertFalse(resultItems[2].isBase)
     }
 }

@@ -19,7 +19,7 @@ class RatesResponseCache(
             ?: Optional.empty()
     }
 
-    override fun put(key: String, t: RatesResponse) = Completable.fromAction {
+    override fun put(key: String, t: RatesResponse): Completable = Completable.fromAction {
         sharedPrefs.edit().putString(key, gson.toJson(t)).apply()
     }
 }

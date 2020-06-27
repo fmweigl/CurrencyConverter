@@ -121,8 +121,11 @@ class RatesToAdapterItemMapper(
 
         val selectedCurrencyItem =
             items.firstOrNull { it.currencyId == selectedCurrencyId } ?: return items
-        val sortedOtherItemsSorted = items.minus(selectedCurrencyItem).sortedBy { it.currencyId }
-        return listOf(selectedCurrencyItem).plus(sortedOtherItemsSorted)
+        val sortedOtherItemsSorted = items
+            .minus(selectedCurrencyItem)
+            .sortedBy { it.currencyId }
+            .map { it.copy(isBase = false) }
+        return listOf(selectedCurrencyItem.copy(isBase = true)).plus(sortedOtherItemsSorted)
     }
 
 }
