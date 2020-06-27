@@ -6,6 +6,7 @@ import com.example.currencyconverter.data.response.RatesResponse
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
 class RatesResponseCache(
@@ -17,7 +18,7 @@ class RatesResponseCache(
         val json = sharedPrefs.getString(key, null)
         json?.let { gson.fromJson(it, RatesResponse::class.java) }?.let { Optional.of(it) }
             ?: Optional.empty()
-    }
+    }.subscribeOn(Schedulers.io())
 
     override fun put(key: String, t: RatesResponse): Completable = Completable.fromAction {
         sharedPrefs.edit().putString(key, gson.toJson(t)).apply()
