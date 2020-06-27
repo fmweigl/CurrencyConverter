@@ -28,8 +28,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private val REVOLUT_BASE_URL = "https://hiring.revolut.codes"
-private val KEY_SHARED_PREFS = "KEY_SHARED_PREFS"
+private const val REVOLUT_BASE_URL = "https://hiring.revolut.codes"
+private const val KEY_SHARED_PREFS = "KEY_SHARED_PREFS"
 
 class App : Application() {
 
@@ -38,7 +38,9 @@ class App : Application() {
             OkHttpClient.Builder()
                 .addNetworkInterceptor(
                     HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
+                        level =
+                            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                            else HttpLoggingInterceptor.Level.NONE
                     }
                 )
                 .build()
